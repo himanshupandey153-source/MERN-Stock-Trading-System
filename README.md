@@ -1,3 +1,4 @@
 # MERN-Stock-Trading-System
-mern project
+MERN PROJECT
+<br>
 Author- Himanshu Pandey
