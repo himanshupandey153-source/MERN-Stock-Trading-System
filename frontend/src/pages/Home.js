@@ -19,9 +19,25 @@ function Home() {
       <h1>Products</h1>
 
       {products.map((product) => (
-        <div key={product._id}>
+        <div
+          key={product._id}
+          style={{
+            border: "1px solid #ccc",
+            margin: "10px",
+            padding: "10px",
+            width: "200px"
+          }}
+        >
+          <img
+            src={product.image}
+            alt={product.name}
+            width="150"
+          />
+
           <h3>{product.name}</h3>
+
           <p>${product.price}</p>
+
         </div>
       ))}
 
