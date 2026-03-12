@@ -1,44 +1,50 @@
 import React, { useEffect, useState } from "react";
-import { getProducts } from "../services/api";
+import { getStocks } from "../services/api";
 
 function Home() {
 
-  const [products, setProducts] = useState([]);
+  const [stocks, setStocks] = useState([]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const { data } = await getProducts();
-      setProducts(data);
+
+    const fetchStocks = async () => {
+      const { data } = await getStocks();
+      setStocks(data);
     };
 
-    fetchProducts();
+    fetchStocks();
+
   }, []);
 
   return (
     <div>
-      <h1>Products</h1>
 
-      {products.map((product) => (
+      <h1>Stock Market</h1>
+
+      {stocks.map((stock) => (
+
         <div
-          key={product._id}
+          key={stock._id}
           style={{
             border: "1px solid #ccc",
-            margin: "10px",
             padding: "10px",
-            width: "200px"
+            margin: "10px",
+            width: "250px"
           }}
         >
-          <img
-            src={product.image}
-            alt={product.name}
-            width="150"
-          />
 
-          <h3>{product.name}</h3>
+          <h3>{stock.symbol} - {stock.name}</h3>
 
-          <p>${product.price}</p>
+          <p>Price: ${stock.price}</p>
+
+          <p>Change: {stock.change}%</p>
+
+          <p>Volume: {stock.volume}</p>
+
+          <button>Buy</button>
 
         </div>
+
       ))}
 
     </div>
