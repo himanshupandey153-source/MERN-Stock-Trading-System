@@ -5,6 +5,7 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userroutes.js";
 import productRoutes from "./routes/productRoutes.js";
+import stockRoutes from "./routes/stockRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -20,6 +21,7 @@ connectDB();
 app.use("/api/users", userRoutes);
 app.use("/api/trade", tradeRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/stocks", stockRoutes);
 // Test Route
 app.get("/", (req, res) => {
   res.send("ShopEZ Backend Running");
