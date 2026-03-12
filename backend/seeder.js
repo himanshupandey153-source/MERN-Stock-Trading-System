@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+
 import connectDB from "./config/db.js";
-import Product from "./models/Product.js";
-import products from "./data/products.js";
+import Stock from "./models/Stocks.js";
+import stocks from "./data/stocks.js";
 
 dotenv.config();
 
@@ -10,11 +11,11 @@ connectDB();
 
 const importData = async () => {
   try {
-    await Product.deleteMany();
+    await Stock.deleteMany();
 
-    await Product.insertMany(products);
+    await Stock.insertMany(stocks);
 
-    console.log("Products Imported!");
+    console.log("Stocks Seeded!");
     process.exit();
   } catch (error) {
     console.error(error);
