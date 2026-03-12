@@ -7,7 +7,8 @@ function Navbar() {
       <Link to="/" style={{color:"white", marginRight:"20px"}}>Home</Link>
       <Link to="/login" style={{color:"white", marginRight:"20px"}}>Login</Link>
       <Link to="/register" style={{color:"white", marginRight:"20px"}}>Register</Link>
-      <Link to="/cart" style={{color:"white"}}>Cart</Link>
+      <Link to="/cart" style={{color:"white",  marginRight:"20px"}}>Cart</Link>
+      <Link to="/portfolio" style={{color:"white"}}>Portfolio</Link>
     </nav>
   );
 }

@@ -4,7 +4,7 @@ import Login from "./pages/login";
 import Register from "./pages/Register";
 import ProductScreen from "./pages/ProductScreen";
 import CartScreen from "./pages/CartScreen";
-
+import Portfolio from "./pages/portfolio";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -20,6 +20,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/product/:id" element={<ProductScreen />} />
         <Route path="/cart" element={<CartScreen />} />
+        <Route path="/portfolio" element={<Portfolio />} />
       </Routes>
 
       <Footer />
