@@ -4,96 +4,92 @@ import { getPortfolio, sellStock } from "../services/api";
 function Portfolio() {
   const [portfolio, setPortfolio] = useState([]);
 
-  const fetchPortfolio = async () => {
-    try {
-      const userId = localStorage.getItem("userId");
-      const res = await getPortfolio(userId);
-      setPortfolio(res.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     fetchPortfolio();
   }, []);
 
-  const handleSell = async (symbol) => {
+  const fetchPortfolio = async () => {
     try {
-      const userId = localStorage.getItem("userId");
-
-      await sellStock({
-        userId,
-        stock: symbol,
-        quantity: 1,
-      });
-
-      alert("Stock Sold");
-      fetchPortfolio();
-    } catch (error) {
-      alert("Sell failed");
+      const { data } = await getPortfolio(userId);
+      setPortfolio(data);
+    } catch (err) {
+      console.error("Error fetching portfolio:", err);
     }
   };
 
-  const totalInvestment = portfolio.reduce((acc, item) => {
-    return acc + (item.price || 0) * item.quantity;
-  }, 0);
+  const handleSell = async (stock) => {
+    try {
+      await sellStock({
+        userId,
+        stock: stock.stock,
+        quantity: 1,
+      });
+
+      fetchPortfolio(); // refresh after selling
+    } catch (err) {
+      console.error("Sell error:", err);
+    }
+  };
+
+  // totals
+  const totalStocks = portfolio.length;
 
   return (
     <div style={{ padding: "20px" }}>
       <h1>My Portfolio</h1>
 
-      <h3>Total Stocks: {portfolio.length}</h3>
-      <h3>Total Investment: ₹{totalInvestment}</h3>
+      <h3>Total Stocks: {totalStocks}</h3>
 
       <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {portfolio.map((stock, index) => (
-          <div
-            key={index}
-            style={{
-              border: "1px solid #ddd",
-              borderRadius: "10px",
-              padding: "15px",
-              margin: "10px",
-              width: "250px",
-              background: "#f9f9f9",
-            }}
-          >
-            <h2>{stock.stock}</h2>
-            <p>Quantity: {stock.quantity}</p>
+        {portfolio.map((stock, index) => {
+          const price = stock.price || 100; // fallback dummy price
+          const avg = stock.avgPrice || 90;
 
-            <button
-              onClick={() => handleSell(stock.stock)}
+          const totalValue = price * stock.quantity;
+          const profitLoss = (price - avg) * stock.quantity;
+
+          return (
+            <div
+              key={index}
               style={{
-                marginTop: "10px",
-                padding: "8px",
-                background: "white",
-                color: "black",
-                border: "none",
-                cursor: "pointer",
+                borderRadius: "12px",
+                padding: "20px",
+                margin: "10px",
+                width: "260px",
+                background: "#fff",
+                boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
               }}
-            ><p>Current Price: ₹{stock.price || 0}</p>
+            >
+              <h2>{stock.stock}</h2>
+              <p>Quantity: {stock.quantity}</p>
 
-<p>
-  Total Value: ₹{(stock.price || 0) * stock.quantity}
-</p>
+              <p>Buy Price: ₹{avg}</p>
+              <p>Current Price: ₹{price}</p>
+              <p>Total Value: ₹{totalValue}</p>
 
-<p
-  style={{
-    color:
-      (stock.price || 0) >= (stock.avgPrice || 0)
-        ? "red"
-        : "red",
-  }}
->
-  Profit/Loss: ₹
-  {((stock.price || 0) - (stock.avgPrice || 0)) *
-    stock.quantity}
-</p>
-              Sell 1
-            </button>
-          </div>
-        ))}
+              <p style={{ color: profitLoss >= 0 ? "green" : "red" }}>
+                Profit/Loss: ₹{profitLoss}
+              </p>
+
+              <button
+                onClick={() => handleSell(stock)}
+                style={{
+                  marginTop: "10px",
+                  padding: "6px 12px",
+                  background: "#ef4444",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                Sell 1
+              </button>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

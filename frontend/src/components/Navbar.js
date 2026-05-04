@@ -2,48 +2,58 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function Navbar() {
+  const userId = localStorage.getItem("userId");
+
   const handleLogout = () => {
     localStorage.clear();
     window.location.href = "/login";
   };
 
   return (
-    <nav style={{ background: "#222", padding: "15px" }}>
-      <Link to="/" style={{ color: "white", marginRight: "20px" }}>
-        Home
-      </Link>
+    <nav
+      style={{
+        background: "#1f2937",
+        padding: "15px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <div>
+        <Link style={linkStyle} to="/">Home</Link>
+        <Link style={linkStyle} to="/portfolio">Portfolio</Link>
+      </div>
 
-      <Link to="/login" style={{ color: "white", marginRight: "20px" }}>
-        Login
-      </Link>
-
-      <Link to="/register" style={{ color: "white", marginRight: "20px" }}>
-        Register
-      </Link>
-
-      <Link to="/cart" style={{ color: "white", marginRight: "20px" }}>
-        Cart
-      </Link>
-
-      <Link to="/portfolio" style={{ color: "white", marginRight: "20px" }}>
-        Portfolio
-      </Link>
-
-      <button
-        onClick={handleLogout}
-        style={{
-          marginLeft: "20px",
-          padding: "6px 10px",
-          background: "red",
-          color: "white",
-          border: "none",
-          cursor: "pointer",
-        }}
-      >
-        Logout
-      </button>
+      <div>
+        {!userId ? (
+          <>
+            <Link style={linkStyle} to="/login">Login</Link>
+            <Link style={linkStyle} to="/register">Register</Link>
+          </>
+        ) : (
+          <button onClick={handleLogout} style={logoutBtn}>
+            Logout
+          </button>
+        )}
+      </div>
     </nav>
   );
 }
+
+const linkStyle = {
+  color: "white",
+  marginRight: "20px",
+  textDecoration: "none",
+  fontWeight: "500",
+};
+
+const logoutBtn = {
+  background: "#ef4444",
+  color: "white",
+  border: "none",
+  padding: "6px 12px",
+  borderRadius: "5px",
+  cursor: "pointer",
+};
 
 export default Navbar;

@@ -17,7 +17,12 @@ export const getPortfolio = async (req, res) => {
           (portfolio[tx.stock] || 0) - tx.quantity;
       }
     });
-
+portfolio.map(item => ({
+  stock: item.stock,
+  quantity: item.quantity,
+  avgPrice: item.avgPrice,
+  price: getCurrentPrice(item.stock) // or static for now
+}))
     res.json(portfolio);
   } catch (error) {
     console.error(error);

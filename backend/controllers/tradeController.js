@@ -13,18 +13,29 @@ export const buyStock = async (req, res) => {
     price
   });
 
-  let portfolio = await Portfolio.findOne({ user: userId, stock });
+  let portfolio = await Portfolio.findOne({
+  user: userId,
+  stock
+});
 
-  if (portfolio) {
-    portfolio.quantity += quantity;
-    await portfolio.save();
-  } else {
-    portfolio = await Portfolio.create({
-      user: userId,
-      stock,
-      quantity
-    });
-  }
+if (portfolio) {
+  const totalCost =
+    portfolio.avgPrice * portfolio.quantity + price * quantity;
+
+  const totalQty = portfolio.quantity + quantity;
+
+  portfolio.avgPrice = totalCost / totalQty;
+  portfolio.quantity = totalQty;
+} else {
+  portfolio = new Portfolio({
+    user: userId,
+    stock,
+    quantity,
+    avgPrice: price,
+  });
+}
+
+await portfolio.save();
 
   res.json(transaction);
 };

@@ -7,6 +7,8 @@ const portfolioSchema = new mongoose.Schema({
   },
   stock: String,
   quantity: Number,
+  avgPrice: Number   // 🔥 NEW FIELD
 });
+
 
 export default mongoose.model("Portfolio", portfolioSchema);
