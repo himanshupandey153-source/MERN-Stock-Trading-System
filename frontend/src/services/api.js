@@ -13,4 +13,5 @@ export const sellStock = (data) => API.post("/trade/sell", data);
 export const getPortfolio = (userId) =>
   API.get(`/trade/portfolio/${userId}`);
 
+
 export const getStocks = () => API.get("/stocks");

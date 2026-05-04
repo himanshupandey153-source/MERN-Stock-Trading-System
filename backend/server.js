@@ -6,6 +6,7 @@ import connectDB from "./config/db.js";
 import userRoutes from "./routes/userroutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import stockRoutes from "./routes/stockRoutes.js";
+import portfolioRoutes from "./routes/portfolioRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.json());
 connectDB();
 
 // Routes
+app.use("/api/portfolio", portfolioRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/trade", tradeRoutes);
 app.use("/api/products", productRoutes);
